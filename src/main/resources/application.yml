@@ -5,6 +5,13 @@ server:
 spring:
   application:
     name: ms-users
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/sis-323}
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:admin}
+    jpa:
+      hibernate:
+        ddl-auto: none
 
 keycloak:
   auth-server-url: http://localhost:8080
