@@ -1,0 +1,21 @@
+
+server:
+  port: 8081
+
+spring:
+  application:
+    name: ms-users
+
+keycloak:
+  auth-server-url: http://localhost:8080
+  autodetect-bearer-only: true
+  credentials:
+    secret: CPDpTloMke8mrdDFH35UP9y6UkYC5GkN
+    realm: sis-323
+    resource: pm-backend
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
