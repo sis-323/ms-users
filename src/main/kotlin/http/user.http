@@ -1,0 +1,2 @@
+POST http://localhost:8081/api/v1/users
+Content-Type: application/json
