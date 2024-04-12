@@ -7,7 +7,6 @@ data class PersonDto (
         val motherLastName: String?,
         val email: String?,
         val phoneNumber: String?,
-        val group: String?,
         val password: String?,
         val username: String?
 )

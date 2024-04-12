@@ -3,14 +3,34 @@ Content-Type: application/json
 
 {
   "modalityId": 1,
-  "name": "Juan",
-  "lastName": "Perez",
-  "motherLastName": "Perez",
-  "email": "john@email.com",
-  "phoneNumber": "1234567890",
+  "name": "Papu",
+  "lastName": "Gomezs",
+  "motherLastName": "Hola",
+  "email": "gomez@email.com",
+  "phoneNumber": "283293289",
   "password": "password",
-  "group": "students",
-  "username": "juan"
+  "group": "professors",
+  "username": "papu1"
 
 
 }
+###
+
+POST http://localhost:8081/api/v1/users/professor
+Content-Type: application/json
+
+{
+"modalityId": 1,
+"name": "Papu",
+"lastName": "Gomezs",
+"motherLastName": "Hola",
+"email": "gomez@email.com",
+"phoneNumber": "283293289",
+"password": "password",
+"username": "papu1"
+
+
+}
+
+
+
