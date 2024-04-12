@@ -1,2 +1,16 @@
-POST http://localhost:8081/api/v1/users
+POST http://localhost:8081/api/v1/users/student
 Content-Type: application/json
+
+{
+  "modalityId": 1,
+  "name": "Juan",
+  "lastName": "Perez",
+  "motherLastName": "Perez",
+  "email": "john@email.com",
+  "phoneNumber": "1234567890",
+  "password": "password",
+  "group": "students",
+  "username": "juan"
+
+
+}

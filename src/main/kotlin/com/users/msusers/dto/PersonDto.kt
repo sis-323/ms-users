@@ -1,4 +1,13 @@
 package com.users.msusers.dto
 
-class PersonDto {
-}
+data class PersonDto (
+        val modalityId: Long?,
+        val name: String?,
+        val lastName: String?,
+        val motherLastName: String?,
+        val email: String?,
+        val phoneNumber: String?,
+        val group: String?,
+        val password: String?,
+        val username: String?
+)

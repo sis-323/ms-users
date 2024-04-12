@@ -17,7 +17,7 @@ keycloak:
   auth-server-url: http://localhost:8080
   autodetect-bearer-only: true
   credentials:
-    secret: CPDpTloMke8mrdDFH35UP9y6UkYC5GkN
+    secret: CalOb9h83bEQEGYqaduEg0p4CFzaNnEa
     realm: sis-323
     resource: pm-backend
 

@@ -32,6 +32,9 @@ class Person {
     @Column(name = "grupo")
     var group: String = ""
 
+    @Column(name = "id_kc")
+    var idKc: String = ""
+
     @OneToOne
     @JoinColumn(name = "id_modalidad")
     var modality: Modality? = null
