@@ -3,7 +3,10 @@ package com.users.msusers.bl
 import com.users.msusers.dao.ModalityRepository
 import com.users.msusers.dao.UserRepository
 import com.users.msusers.dto.PersonDto
+import com.users.msusers.entity.Modality
 import com.users.msusers.entity.Person
+import com.users.msusers.exception.CustomNotFoundException
+import com.users.msusers.exception.UserAlreadyExistsException
 import org.keycloak.admin.client.Keycloak
 import org.keycloak.representations.idm.CredentialRepresentation
 import org.keycloak.representations.idm.UserRepresentation
@@ -31,6 +34,12 @@ class UserBl @Autowired constructor(
 
         val passwordRepresentation = preparePasswordRepresentation(personDto.password!!)
         val userRepresentation = prepareUserRepresentation(personDto, passwordRepresentation, groupName)
+
+        val person = userRepository.findByEmail(personDto.email!!)
+        if(person != null){
+            throw UserAlreadyExistsException("Email already exists")
+        }
+
 
         val response = keycloak.realm(realm).users().create(userRepresentation)
 

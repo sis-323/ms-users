@@ -2,6 +2,7 @@ package com.users.msusers.api
 
 import com.users.msusers.bl.UserBl
 import com.users.msusers.dto.PersonDto
+import com.users.msusers.dto.ResponseDto
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
@@ -20,9 +21,9 @@ class UserApi @Autowired constructor(private val userBl: UserBl) {
     }
 
     @PostMapping("/professor")
-    fun createProfessor(@RequestBody userDto: PersonDto): ResponseEntity<String>{
+    fun createProfessor(@RequestBody userDto: PersonDto) : ResponseEntity<ResponseDto<String>> {
         userBl.createUser(userDto, "professors")
-        return ResponseEntity.ok("User created")
+        return ResponseEntity.ok(ResponseDto(null, "User created", true))
     }
 
 }

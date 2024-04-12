@@ -21,13 +21,13 @@ Content-Type: application/json
 
 {
 "modalityId": 1,
-"name": "Papu",
-"lastName": "Gomezs",
+"name": "Pancho",
+"lastName": "Lopez",
 "motherLastName": "Hola",
 "email": "gomez@email.com",
-"phoneNumber": "283293289",
+"phoneNumber": "1002321",
 "password": "password",
-"username": "papu1"
+"username": "pancho_lopez"
 
 
 }

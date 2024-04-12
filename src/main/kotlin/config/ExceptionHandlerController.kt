@@ -3,6 +3,7 @@ package config
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.users.msusers.dto.ResponseDto
 import com.users.msusers.exception.CustomNotFoundException
+import com.users.msusers.exception.UserAlreadyExistsException
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -20,5 +21,11 @@ class ExceptionHandlerController {
     fun handleNotFoundException(e: CustomNotFoundException): ResponseEntity<ResponseDto<Nothing>> {
         logger.error("Error: ${e.message}")
         return ResponseEntity(ResponseDto(null, e.message!!, false), HttpStatus.NOT_FOUND)
+    }
+
+    @ExceptionHandler(UserAlreadyExistsException::class)
+    fun handleUserAlreadyExistsException(e: UserAlreadyExistsException): ResponseEntity<ResponseDto<Nothing>> {
+        logger.error("Error: ${e.message}")
+        return ResponseEntity(ResponseDto(null, e.message!!, false), HttpStatus.BAD_REQUEST)
     }
 }
