@@ -22,7 +22,13 @@ class UserApi @Autowired constructor(private val userBl: UserBl) {
 
     @PostMapping("/professor")
     fun createProfessor(@RequestBody userDto: PersonDto) : ResponseEntity<ResponseDto<String>> {
-        userBl.createUser(userDto, "professors")
+        try {
+            userBl.createUser(userDto, "professors")
+
+        }
+        catch (e: Exception) {
+            return ResponseEntity.badRequest().body(ResponseDto(null, e.message!!, false))
+        }
         return ResponseEntity.ok(ResponseDto(null, "User created", true))
     }
 
