@@ -18,10 +18,11 @@ import javax.ws.rs.ClientErrorException
 
 @Service
 class UserBl @Autowired constructor(
-        private val keycloak: Keycloak,
         private val userRepository: UserRepository,
-        private val modalityRepository: ModalityRepository
-) {
+        private val modalityRepository: ModalityRepository,
+        private val keycloak: Keycloak,
+
+        ) {
     companion object {
         private val logger = org.slf4j.LoggerFactory.getLogger(UserBl::class.java.name)
     }
@@ -35,10 +36,8 @@ class UserBl @Autowired constructor(
         val passwordRepresentation = preparePasswordRepresentation(personDto.password!!)
         val userRepresentation = prepareUserRepresentation(personDto, passwordRepresentation, groupName)
 
-        val person = userRepository.findByEmail(personDto.email!!)
-        if(person != null){
-            throw UserAlreadyExistsException("Email already exists")
-        }
+        //val person = userRepository.findByEmail(personDto.email!!)
+
 
 
         val response = keycloak.realm(realm).users().create(userRepresentation)

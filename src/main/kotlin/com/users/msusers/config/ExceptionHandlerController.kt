@@ -1,4 +1,4 @@
-package config
+package com.users.msusers.config
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.users.msusers.dto.ResponseDto
