@@ -3,6 +3,7 @@ package com.users.msusers.bl
 import com.users.msusers.dao.ModalityRepository
 import com.users.msusers.dao.UserRepository
 import com.users.msusers.dto.PersonDto
+import com.users.msusers.dto.UserDto
 import com.users.msusers.entity.Modality
 import com.users.msusers.entity.Person
 import com.users.msusers.exception.CustomNotFoundException
@@ -37,9 +38,6 @@ class UserBl @Autowired constructor(
         val userRepresentation = prepareUserRepresentation(personDto, passwordRepresentation, groupName)
 
         //val person = userRepository.findByEmail(personDto.email!!)
-
-
-
         val response = keycloak.realm(realm).users().create(userRepresentation)
 
         if (response.status != 201) {
@@ -64,6 +62,24 @@ class UserBl @Autowired constructor(
         userRepository.save(user)
         logger.info("User saved in the database.")
     }
+
+    fun findStudents(): List<UserDto>{
+        val students = userRepository.findStudents()
+        return students.map {
+            UserDto(
+                    it.modality!!.modality,
+                    it.name,
+                    it.lastName,
+                    it.motherLastName,
+                    it.email,
+                    it.phoneNumber,
+            )
+        }
+    }
+
+
+
+
     private fun preparePasswordRepresentation(
             password: String
     ): CredentialRepresentation {
