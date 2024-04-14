@@ -1,3 +1,4 @@
+# @no-cookie-jar
 POST http://localhost:9100/api/v1/users/student
 Content-Type: application/json
 
@@ -21,13 +22,13 @@ Content-Type: application/json
 
 {
 "modalityId": 1,
-"name": "Pancho",
-"lastName": "Lopez",
-"motherLastName": "Hola",
-"email": "gomez@email.com",
+"name": "Pedro",
+"lastName": "Picapiedra",
+"motherLastName": "si",
+"email": "pedro@email.com",
 "phoneNumber": "1002321",
 "password": "password",
-"username": "pancho_lopez"
+"username": "pedro_pica"
 
 
 }

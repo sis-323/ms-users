@@ -7,6 +7,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+
 
 @Configuration
 @EnableWebSecurity
@@ -27,12 +29,16 @@ public class GlobalSecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests( (authorizeHttpRequests) -> {
             authorizeHttpRequests
+                    //.requestMatchers("/api/v1/users/professor").permitAll()
                     .requestMatchers("api/v1/users/students").hasRole("view-students-list")
+
                     .anyRequest().permitAll();
         });
         http.oauth2ResourceServer( (oauth2) -> {
             oauth2.jwt( (jwt) -> jwt.jwtAuthenticationConverter(keycloakJwtTokenConverter));
         });
+        http.csrf(AbstractHttpConfigurer::disable);
+
         http.sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         return http.build();
     }

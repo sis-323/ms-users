@@ -26,7 +26,6 @@ class UserApi @Autowired constructor(private val userBl: UserBl) {
     fun createProfessor(@RequestBody userDto: PersonDto) : ResponseEntity<ResponseDto<String>> {
         try {
             userBl.createUser(userDto, "professors")
-
         }
         catch (e: Exception) {
             return ResponseEntity.badRequest().body(ResponseDto(null, e.message!!, false))
