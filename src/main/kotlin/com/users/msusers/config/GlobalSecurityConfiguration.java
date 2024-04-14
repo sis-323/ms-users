@@ -31,6 +31,8 @@ public class GlobalSecurityConfiguration {
             authorizeHttpRequests
                     //.requestMatchers("/api/v1/users/professor").permitAll()
                     .requestMatchers("api/v1/users/students").hasRole("view-students-list")
+                    .requestMatchers("api/v1/users/relator").hasRole("create-committee")
+                    .requestMatchers("api/v1/users/tutor").hasRole("create-committee")
 
                     .anyRequest().permitAll();
         });

@@ -33,6 +33,19 @@ class UserApi @Autowired constructor(private val userBl: UserBl) {
         return ResponseEntity.ok(ResponseDto(null, "User created", true))
     }
 
+
+
+    @PostMapping("/relator")
+    fun createRelator(@RequestBody userDto: PersonDto) : ResponseEntity<ResponseDto<String>> {
+        try {
+            userBl.createUser(userDto, "relators")
+        }
+        catch (e: Exception) {
+            return ResponseEntity.badRequest().body(ResponseDto(null, e.message!!, false))
+        }
+        return ResponseEntity.ok(ResponseDto(null, "User created", true))
+    }
+
     @GetMapping("/students")
     fun getStudents(): ResponseEntity<ResponseDto<List<UserDto>>> {
         val students = userBl.findStudents()
