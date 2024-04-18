@@ -33,14 +33,12 @@ public class GlobalSecurityConfiguration {
                     .requestMatchers("api/v1/users/students").hasRole("view-students-list")
                     .requestMatchers("api/v1/users/relator").hasRole("create-committee")
                     .requestMatchers("api/v1/users/tutor").hasRole("create-committee")
-
                     .anyRequest().permitAll();
         });
         http.oauth2ResourceServer( (oauth2) -> {
             oauth2.jwt( (jwt) -> jwt.jwtAuthenticationConverter(keycloakJwtTokenConverter));
         });
         http.csrf(AbstractHttpConfigurer::disable);
-
         http.sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         return http.build();
     }
