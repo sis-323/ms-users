@@ -10,9 +10,7 @@ Content-Type: application/json
   "email": "gomez@email.com",
   "phoneNumber": "283293289",
   "password": "password",
-  "group": "professors",
   "username": "papu1"
-
 
 }
 ###

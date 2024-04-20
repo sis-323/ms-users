@@ -14,6 +14,8 @@ import org.keycloak.representations.idm.UserRepresentation
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
+import java.time.LocalDate
+import java.util.Date
 import javax.ws.rs.ClientErrorException
 
 
@@ -59,6 +61,8 @@ class UserBl @Autowired constructor(
         user.group = groupName
         user.status = true
         user.idKc = userUuid
+
+        user.semester = getSemester(LocalDate.now())
         userRepository.save(user)
         logger.info("User saved in the database.")
     }
@@ -107,5 +111,10 @@ class UserBl @Autowired constructor(
         return userRepresentation
     }
 
-}
+    fun getSemester(currentDate: LocalDate): String =
+            when (currentDate.monthValue) {
+                in 2..6 -> "I-${currentDate.year}"
+                in 8..11 -> "II-${currentDate.year}"
+                else -> throw IllegalArgumentException("Invalid month for semester determination")
+            }}
 
