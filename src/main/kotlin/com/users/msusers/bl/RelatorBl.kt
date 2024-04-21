@@ -26,7 +26,7 @@ class RelatorBl (
         logger.info("Verifying relator student limit for relator: ${relator.name}")
 
         if (checkRelatorStudentLimit(relatorId)) {
-            if(checkAssignation(userId, relatorId) == false){
+            if(getAssignation(userId) == null){
                 val assignation = Assignation()
                 assignation.status = true
                 assignation.studentId = user
@@ -44,8 +44,6 @@ class RelatorBl (
             }
         }
 
-
-
     }
 
     private fun checkRelatorStudentLimit(tutorId: Long): Boolean {
@@ -56,17 +54,29 @@ class RelatorBl (
     }
 
     private fun checkAssignation(studentId: Long, relatorId: Long): Any {
-        val student = userRepository.findById(studentId).get()
-        //val relator = userRepository.findById(relatorId).get()
-
-        val assignation = assignationRepository.findByStudentId(student)
-        if (assignation == null) {
-            return false
-        }
-        else{
+        val student = userRepository.findById(studentId).orElse(null)
+        val assignationExists =
+        assignationRepository.existsByStudentId(student)
+        if (assignationExists){
             return assignationRepository.findByStudentId(student)
         }
+        return false
 
+    }
+
+
+    private fun getAssignation(studentId: Long): Any? {
+        if (checkAssignation(studentId)) {
+            val student = userRepository.findById(studentId).get()
+            return assignationRepository.findByStudentId(student)
+        }
+        return null
+
+    }
+
+    private fun checkAssignation(studentId: Long): Boolean {
+        val student = userRepository.findById(studentId).get()
+        return assignationRepository.existsByStudentId(student)
     }
 
 

@@ -12,5 +12,7 @@ interface AssignationRepository : JpaRepository<Assignation, Long> {
 
     fun findAllByTutorId(tutorId: Person): List<Assignation>
 
+    fun existsByStudentId(studentId: Person): Boolean
+
     fun findByStudentIdAndRelatorId(studentId: Person, relatorId: Person): Assignation
 }

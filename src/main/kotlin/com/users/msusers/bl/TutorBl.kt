@@ -27,12 +27,21 @@ class TutorBl constructor(
         logger.info("Verifying tutor student limit for tutor: ${tutor.name}")
 
         if (checkTutorStudentLimit(tutorId)) {
-            val assignation = Assignation()
-            assignation.status = true
-            assignation.studentId = user
-            assignation.tutorId = tutor
+            if (getAssignation(userId) == null) {
+                val assignation = Assignation()
+                assignation.status = true
+                assignation.studentId = user
+                assignation.tutorId = tutor
 
-            assignationRepository.save(assignation)
+                assignationRepository.save(assignation)
+
+                logger.info("Tutor assigned to user: $userId")
+            } else {
+                val assignation = getAssignation(userId) as Assignation
+                assignation.tutorId = tutor
+                assignationRepository.save(assignation)
+
+            }
 
             logger.info("Tutor assigned to user: $userId")
         } else {
@@ -50,4 +59,17 @@ class TutorBl constructor(
 
     }
 
+    private fun getAssignation(studentId: Long): Any? {
+        if (checkAssignation(studentId)) {
+            val student = userRepository.findById(studentId).get()
+            return assignationRepository.findByStudentId(student)
+        }
+        return null
+
+    }
+
+    private fun checkAssignation(studentId: Long): Boolean {
+        val student = userRepository.findById(studentId).get()
+        return assignationRepository.existsByStudentId(student)
+    }
 }
