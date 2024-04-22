@@ -17,6 +17,7 @@ spring:
     password: ${DB_PASSWORD:admin}
     jpa:
       hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
         ddl-auto: none
 
 keycloak:

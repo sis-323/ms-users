@@ -13,12 +13,10 @@ import java.util.stream.Stream
 
 
 class KeycloakJwtTokenConverter(private val jwtGrantedAuthoritiesConverter: JwtGrantedAuthoritiesConverter,
-                                private val properties: TokenConverterProperties) : Converter<Jwt, AbstractAuthenticationToken>
+                                private val properties: TokenConverterProperties) : Converter<Jwt,
+        AbstractAuthenticationToken>
 
 {
-        companion object{
-            val logger = org.slf4j.LoggerFactory.getLogger(KeycloakJwtTokenConverter::class.java.name)
-        }
         override fun convert(jwt: Jwt): AbstractAuthenticationToken {
         val authorities: Collection<GrantedAuthority> = Stream.concat(
                 jwtGrantedAuthoritiesConverter.convert(jwt)!!.stream(),
@@ -36,7 +34,6 @@ class KeycloakJwtTokenConverter(private val jwtGrantedAuthoritiesConverter: JwtG
     private fun extractResourceRoles(jwt: Jwt): Collection<GrantedAuthority> {
 
         val resourceAccess = jwt.getClaim<Map<String, Any>>("resource_access")
-        logger.info("Resource Access: $resourceAccess")
         val resource = resourceAccess["pm-backend"] as Map<String, Any>?
         val roles = resource!!["roles"] as Collection<String>?
         return roles!!.stream()
