@@ -2,6 +2,7 @@ package com.users.msusers.bl
 
 import com.users.msusers.dao.AssignationRepository
 import com.users.msusers.dao.UserRepository
+import com.users.msusers.dto.RelatorDto
 import com.users.msusers.entity.Assignation
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -44,6 +45,15 @@ class RelatorBl (
             }
         }
 
+    }
+
+    fun findRelators(): List<RelatorDto>{
+        val relators = userRepository.findRelators()
+        val relatorDtos = mutableListOf<RelatorDto>()
+        relators.forEach {
+            relatorDtos.add(RelatorDto(it.idKc, it.name, it.lastName, it.motherLastName, it.email, it.phoneNumber))
+        }
+        return relatorDtos
     }
 
     private fun checkRelatorStudentLimit(tutorId: Long): Boolean {

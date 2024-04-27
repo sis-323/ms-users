@@ -13,4 +13,6 @@ interface UserRepository: JpaRepository<Person, Long>{
     @Query("SELECT p FROM Person p WHERE p.group = 'students'")
     fun findStudents(): List<Person>
 
+    @Query("SELECT p FROM Person p WHERE p.group = 'relators' AND p.status = true")
+    fun findRelators(): List<Person>
 }
