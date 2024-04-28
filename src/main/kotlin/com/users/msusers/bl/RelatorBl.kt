@@ -2,11 +2,15 @@ package com.users.msusers.bl
 
 import com.users.msusers.dao.AssignationRepository
 import com.users.msusers.dao.UserRepository
+import com.users.msusers.dto.PersonDto
 import com.users.msusers.dto.RelatorDto
 import com.users.msusers.entity.Assignation
+import com.users.msusers.entity.Person
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import java.util.UUID
+import kotlin.math.log
 
 @Service
 class RelatorBl (
@@ -55,6 +59,33 @@ class RelatorBl (
         }
         return relatorDtos
     }
+
+    fun deleteRelator(userKcUUID: String){
+        logger.debug("Start deleting relator: $userKcUUID")
+        val relator = userRepository.findByIdKc(userKcUUID)
+        relator.status = false
+        userRepository.save(relator)
+        logger.info("Relator deleted: $userKcUUID")
+
+    }
+
+    fun findStudentsByRelator(relatorKcId: String): List<PersonDto>{
+        val relator = userRepository.findByIdKc(relatorKcId)
+        val assignations = assignationRepository.findAllByRelatorId(relator)
+
+        val students = mutableListOf<PersonDto>()
+
+        for (assignation in assignations){
+            students.add(PersonDto(
+                assignation.studentId?.idPerson, assignation.studentId?.name,
+                assignation.studentId?.lastName, assignation.studentId?.motherLastName,
+                assignation.studentId?.email, assignation.studentId?.phoneNumber, null, null))
+        }
+        return students
+    }
+
+
+
 
     private fun checkRelatorStudentLimit(tutorId: Long): Boolean {
         val tutor = userRepository.findById(tutorId).get()

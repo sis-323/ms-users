@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query
 interface UserRepository: JpaRepository<Person, Long>{
 
     fun findByEmail(email: String): Person
+    fun findByIdKc(idKc: String): Person
 
     @Query("SELECT p FROM Person p WHERE p.group = 'students'")
     fun findStudents(): List<Person>

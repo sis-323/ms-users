@@ -8,14 +8,18 @@ import com.users.msusers.dto.ResponseDto
 import com.users.msusers.dto.UserDto
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/api/v1/users")
+@CrossOrigin(origins = ["*"])
 class UserApi @Autowired constructor(private val userBl: UserBl,
     @Autowired private val relatorBl: RelatorBl) {
 
@@ -35,7 +39,6 @@ class UserApi @Autowired constructor(private val userBl: UserBl,
         }
         return ResponseEntity.ok(ResponseDto(null, "User created", true))
     }
-
 
 
     @PostMapping("/relator")
@@ -70,6 +73,19 @@ class UserApi @Autowired constructor(private val userBl: UserBl,
         val students = relatorBl.findRelators()
         return ResponseEntity.ok(ResponseDto(students, "Relators found", true))
     }
+
+    @PutMapping("/relator")
+    fun deleteRelator(@RequestParam kcUUID: String): ResponseEntity<ResponseDto<String>> {
+        try {
+            relatorBl.deleteRelator(kcUUID)
+        }
+        catch (e: Exception) {
+            return ResponseEntity.badRequest().body(ResponseDto(null, e.message!!, false))
+        }
+        return ResponseEntity.ok(ResponseDto(null, "Relator deleted", true))
+    }
+
+
 
 
 
