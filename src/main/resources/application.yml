@@ -12,9 +12,9 @@ spring:
           issuer-uri: ${ISSUER_URI:http://localhost:8080/realms/sis-323}
           jwk-set-uri: ${spring.security.oauth2.resource-server.jwt.issuer-uri}/protocol/openid-connect/certs
   datasource:
-    url: ${DB_URL:jdbc:postgresql://localhost:5432/sis-323}
-    username: ${DB_USER:postgres}
-    password: ${DB_PASSWORD:admin}
+    url: ${POSTGRES_URL:jdbc:postgresql://localhost:5432/sis-323}
+    username: ${POSTGRES_USERNAME:postgres}
+    password: ${POSTGRES_PASSWORD:admin}
     jpa:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
@@ -31,7 +31,7 @@ keycloak:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: ${DISCOVERY_SERVER_URL:http://localhost:8761/eureka/}
 
 
 token:
