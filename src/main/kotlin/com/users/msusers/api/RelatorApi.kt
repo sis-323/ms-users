@@ -5,13 +5,12 @@ import com.users.msusers.dto.PersonDto
 import com.users.msusers.dto.ResponseDto
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/api/v1/relators")
+@RequestMapping("/api/v1/users/relators")
+@CrossOrigin(origins = ["*"])
+
 class RelatorApi (
     @Autowired private val relatorBl: RelatorBl
 ){
