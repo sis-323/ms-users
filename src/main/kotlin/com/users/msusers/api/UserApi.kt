@@ -49,7 +49,7 @@ class UserApi @Autowired constructor(private val userBl: UserBl,
         catch (e: Exception) {
             return ResponseEntity.badRequest().body(ResponseDto(null, e.message!!, false))
         }
-        return ResponseEntity.ok(ResponseDto(null, "User created", true))
+        return ResponseEntity.ok(ResponseDto(null, "Relator created successfully", true))
     }
 
     @PostMapping("/tutor")
@@ -68,10 +68,10 @@ class UserApi @Autowired constructor(private val userBl: UserBl,
         val students = userBl.findStudents()
         return ResponseEntity.ok(ResponseDto(students, "Students found", true))
     }
-    @GetMapping("/relators")
+    @GetMapping("/committee")
     fun getRelators(): ResponseEntity<ResponseDto<List<RelatorDto>>> {
-        val students = relatorBl.findRelators()
-        return ResponseEntity.ok(ResponseDto(students, "Relators found", true))
+        val committee = userBl.findCommittee()
+        return ResponseEntity.ok(ResponseDto(committee, "Relators found", true))
     }
 
     @PutMapping("/relator")

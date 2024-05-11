@@ -3,6 +3,7 @@ package com.users.msusers.bl
 import com.users.msusers.dao.ModalityRepository
 import com.users.msusers.dao.UserRepository
 import com.users.msusers.dto.PersonDto
+import com.users.msusers.dto.RelatorDto
 import com.users.msusers.dto.UserDto
 import com.users.msusers.entity.Modality
 import com.users.msusers.entity.Person
@@ -34,6 +35,7 @@ class UserBl @Autowired constructor(
     private val realm: String? = null
 
     fun createUser(personDto: PersonDto, groupName: String){
+
         logger.info("Creating user: ${personDto.email} in group: $groupName")
 
         val passwordRepresentation = preparePasswordRepresentation(personDto.password!!)
@@ -77,6 +79,22 @@ class UserBl @Autowired constructor(
                     it.motherLastName,
                     it.email,
                     it.phoneNumber,
+            )
+        }
+    }
+
+    // TODO: Refactor relator dto
+    fun findCommittee(): List<RelatorDto>{
+        val committee = userRepository.findCommitteeMembers()
+        return committee.map {
+            RelatorDto(
+                    it.idKc,
+                    it.name,
+                    it.lastName,
+                    it.motherLastName,
+                    it.email,
+                    it.phoneNumber,
+                    it.group
             )
         }
     }

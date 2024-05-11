@@ -51,14 +51,6 @@ class RelatorBl (
 
     }
 
-    fun findRelators(): List<RelatorDto>{
-        val relators = userRepository.findRelators()
-        val relatorDtos = mutableListOf<RelatorDto>()
-        relators.forEach {
-            relatorDtos.add(RelatorDto(it.idKc, it.name, it.lastName, it.motherLastName, it.email, it.phoneNumber))
-        }
-        return relatorDtos
-    }
 
     fun deleteRelator(userKcUUID: String){
         logger.debug("Start deleting relator: $userKcUUID")

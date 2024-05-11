@@ -8,5 +8,6 @@ data class RelatorDto(
     val motherLastName: String,
     val email: String,
     val phoneNumber: String,
+    val group: String
 
 )
