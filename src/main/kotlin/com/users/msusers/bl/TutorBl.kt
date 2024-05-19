@@ -18,17 +18,17 @@ class TutorBl constructor(
         private val logger = LoggerFactory.getLogger(TutorBl::class.java)
     }
 
-    fun assignTutor(userId: Long, tutorId: Long) {
+    fun assignTutor(userId: String, tutorId: String) {
         logger.debug("Start assigning tutor to user: $userId")
 
-        val user = userRepository.findById(userId).get()
+        val user = userRepository.findByIdKc(userId)
 
-        val tutor = userRepository.findById(tutorId).get()
+        val tutor = userRepository.findByIdKc(tutorId)
 
         logger.info("Verifying tutor student limit for tutor: ${tutor.name}")
 
-        if (checkTutorStudentLimit(tutorId)) {
-            if (getAssignation(userId) == null) {
+        if (checkTutorStudentLimit(tutor.idPerson!!)) {
+            if (getAssignation(user.idPerson) == null) {
                 val assignation = Assignation()
                 assignation.status = true
                 assignation.studentId = user
@@ -38,7 +38,7 @@ class TutorBl constructor(
 
                 logger.info("Tutor assigned to user: $userId")
             } else {
-                val assignation = getAssignation(userId) as Assignation
+                val assignation = getAssignation(user.idPerson) as Assignation
                 assignation.tutorId = tutor
                 assignationRepository.save(assignation)
 

@@ -21,17 +21,17 @@ class RelatorBl (
         private val logger = LoggerFactory.getLogger(RelatorBl::class.java)
     }
 
-    fun assignRelator(userId: Long, relatorId: Long) {
-        logger.debug("Start assigning relator to user: $userId")
+    fun assignRelator(userKcId: String, relatorKcId: String) {
+        logger.info("Start assigning relator to user: $userKcId")
 
-        val user = userRepository.findById(userId).get()
+        val user = userRepository.findByIdKc(userKcId)
 
-        val relator = userRepository.findById(relatorId).get()
+        val relator = userRepository.findByIdKc(relatorKcId)
 
         logger.info("Verifying relator student limit for relator: ${relator.name}")
 
-        if (checkRelatorStudentLimit(relatorId)) {
-            if(getAssignation(userId) == null){
+        if (checkRelatorStudentLimit(relator.idPerson)) {
+            if(getAssignation(user.idPerson) == null){
                 val assignation = Assignation()
                 assignation.status = true
                 assignation.studentId = user
@@ -39,10 +39,10 @@ class RelatorBl (
 
                 assignationRepository.save(assignation)
 
-                logger.info("Relator assigned to user: $userId")
+                logger.info("Relator assigned to user: $userKcId")
                 }
             else{
-                val assignation = checkAssignation(userId, relatorId) as Assignation
+                val assignation = checkAssignation(user.idPerson, relator.idPerson) as Assignation
                 assignation.relatorId = relator
                 assignationRepository.save(assignation)
 

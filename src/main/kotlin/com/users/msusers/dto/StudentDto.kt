@@ -8,5 +8,6 @@ data class StudentDto (
     val phoneNumber: String?,
     val tutor: String?,
     val relator: String?,
+    val idKc: String?
     )
 
