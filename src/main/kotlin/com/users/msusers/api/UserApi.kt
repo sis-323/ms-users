@@ -2,10 +2,7 @@ package com.users.msusers.api
 
 import com.users.msusers.bl.RelatorBl
 import com.users.msusers.bl.UserBl
-import com.users.msusers.dto.PersonDto
-import com.users.msusers.dto.RelatorDto
-import com.users.msusers.dto.ResponseDto
-import com.users.msusers.dto.UserDto
+import com.users.msusers.dto.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.CrossOrigin
@@ -56,15 +53,16 @@ class UserApi @Autowired constructor(private val userBl: UserBl,
     fun createTutor(@RequestBody userDto: PersonDto) : ResponseEntity<ResponseDto<String>> {
         try {
             userBl.createUser(userDto, "tutors")
+            return ResponseEntity.ok(ResponseDto(null, "User created", true))
         }
         catch (e: Exception) {
             return ResponseEntity.badRequest().body(ResponseDto(null, e.message!!, false))
         }
-        return ResponseEntity.ok(ResponseDto(null, "User created", true))
+
     }
 
     @GetMapping("/students")
-    fun getStudents(): ResponseEntity<ResponseDto<List<UserDto>>> {
+    fun getStudents(): ResponseEntity<ResponseDto<List<StudentDto>>> {
         val students = userBl.findStudents()
         return ResponseEntity.ok(ResponseDto(students, "Students found", true))
     }
@@ -72,6 +70,13 @@ class UserApi @Autowired constructor(private val userBl: UserBl,
     fun getRelators(): ResponseEntity<ResponseDto<List<RelatorDto>>> {
         val committee = userBl.findCommittee()
         return ResponseEntity.ok(ResponseDto(committee, "Relators found", true))
+    }
+
+    @GetMapping("/tutors")
+    fun getTutors(): ResponseEntity<ResponseDto<List<RelatorDto>>>
+    {
+        val tutors = userBl.findTutors()
+        return ResponseEntity.ok(ResponseDto(tutors, "Tutors found", true))
     }
 
     @PutMapping("/relator")

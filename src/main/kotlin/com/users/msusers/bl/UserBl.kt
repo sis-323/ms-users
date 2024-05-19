@@ -1,9 +1,11 @@
 package com.users.msusers.bl
 
+import com.users.msusers.dao.AssignationRepository
 import com.users.msusers.dao.ModalityRepository
 import com.users.msusers.dao.UserRepository
 import com.users.msusers.dto.PersonDto
 import com.users.msusers.dto.RelatorDto
+import com.users.msusers.dto.StudentDto
 import com.users.msusers.dto.UserDto
 import com.users.msusers.entity.Modality
 import com.users.msusers.entity.Person
@@ -25,7 +27,7 @@ class UserBl @Autowired constructor(
         private val userRepository: UserRepository,
         private val modalityRepository: ModalityRepository,
         private val keycloak: Keycloak,
-
+        private val assignationRepository: AssignationRepository
         ) {
     companion object {
         private val logger = org.slf4j.LoggerFactory.getLogger(UserBl::class.java.name)
@@ -69,24 +71,50 @@ class UserBl @Autowired constructor(
         logger.info("User saved in the database.")
     }
 
-    fun findStudents(): List<UserDto>{
+    fun findStudents(): List<StudentDto> {
         val students = userRepository.findStudents()
-        return students.map {
-            UserDto(
-                    it.modality!!.modality,
-                    it.name,
-                    it.lastName,
-                    it.motherLastName,
-                    it.email,
-                    it.phoneNumber,
+        val result = mutableListOf<StudentDto>()
+        students.forEach {
+            val modality = modalityRepository.findByIdModality(it.modality!!.idModality)
+            val tutorExists = assignationRepository.tutorExistsByStudentIdIdKc(it.idKc)
+            val relatorExists = assignationRepository.relatorExistsByStudentIdIdKc(it.idKc)
+            val tutor = if (tutorExists) assignationRepository.findByStudentIdIdKc(it.idKc).tutorId?.name else "Sin asignar"
+            val relator = if (relatorExists) assignationRepository.findByStudentIdIdKc(it.idKc).relatorId?.name else "Sin asignar"
+            result.add(
+                    StudentDto(
+                            modality.modality,
+                            it.name,
+                            it.lastName,
+                            it.motherLastName,
+                            it.email,
+                            it.phoneNumber,
+                            tutor,
+                            relator
+                    )
             )
         }
+        return result
     }
 
     // TODO: Refactor relator dto
     fun findCommittee(): List<RelatorDto>{
         val committee = userRepository.findCommitteeMembers()
         return committee.map {
+            RelatorDto(
+                    it.idKc,
+                    it.name,
+                    it.lastName,
+                    it.motherLastName,
+                    it.email,
+                    it.phoneNumber,
+                    it.group
+            )
+        }
+    }
+
+    fun findTutors(): List<RelatorDto>{
+        val tutors = userRepository.findAllTutors()
+        return tutors.map {
             RelatorDto(
                     it.idKc,
                     it.name,

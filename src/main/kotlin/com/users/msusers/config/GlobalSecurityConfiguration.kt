@@ -26,38 +26,23 @@ class GlobalSecurityConfiguration(private val properties: TokenConverterProperti
         )
     }
 
-//    @Bean
-//    fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
-//        http.authorizeRequests { authorizeRequests ->
-//            authorizeRequests
-////                .requestMatchers("/api/v1/users/professor").permitAll()
-////                .requestMatchers("api/v1/users/students").hasRole("view-students-list")
-////                .requestMatchers("api/v1/users/relator").hasRole("create-committee")
-////                .requestMatchers("api/v1/users/tutor").hasRole("create-committee")
-//                .anyRequest().permitAll()
-//        }
-//        http.oauth2ResourceServer { oauth2 ->
-//            oauth2.jwt { jwt -> jwt.jwtAuthenticationConverter(keycloakJwtTokenConverter) }
-//        }
-//        //http.csrf().disable()
-//        http.sessionManagement { session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
-//        return http.build()
-//    }
 
     @Bean
-    fun filterChain(http: HttpSecurity): SecurityFilterChain {
+    fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
         return http
             .authorizeHttpRequests { authorize ->
                 authorize
-                    .requestMatchers(HttpMethod.POST, "/api/v1/users/student").permitAll()
+                    .requestMatchers(HttpMethod.POST, "api/v1/users/student").permitAll()
                     .requestMatchers("/greetings/**").hasRole("ADMIN")
                     .anyRequest().permitAll()
             }
-            .httpBasic { }
+
             .oauth2ResourceServer { oauth2 ->
                 oauth2.jwt { jwt -> jwt.jwtAuthenticationConverter(keycloakJwtTokenConverter) }
             }
-            .sessionManagement { session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
+            .csrf{csrf -> csrf.disable()
+            }
+        .sessionManagement { session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
             .build()
     }
 

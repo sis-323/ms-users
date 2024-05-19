@@ -3,6 +3,7 @@ package com.users.msusers.bl
 import com.users.msusers.dao.AssignationRepository
 import com.users.msusers.dao.UserRepository
 import com.users.msusers.entity.Assignation
+import com.users.msusers.entity.CommitteeMemberReachedLimitException
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -46,7 +47,7 @@ class TutorBl constructor(
             logger.info("Tutor assigned to user: $userId")
         } else {
             logger.warn("Tutor with ID: $tutorId has reached the limit of students")
-            throw Exception("Tutor has reached the limit of students")
+            throw CommitteeMemberReachedLimitException("Tutor has reached the limit of students")
         }
 
 

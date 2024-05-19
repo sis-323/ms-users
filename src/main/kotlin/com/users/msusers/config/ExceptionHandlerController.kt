@@ -2,6 +2,7 @@ package com.users.msusers.config
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.users.msusers.dto.ResponseDto
+import com.users.msusers.entity.CommitteeMemberReachedLimitException
 import com.users.msusers.exception.CustomNotFoundException
 import com.users.msusers.exception.UserAlreadyExistsException
 import org.slf4j.LoggerFactory
@@ -26,6 +27,10 @@ class ExceptionHandlerController {
     @ExceptionHandler
     fun handleUserAlreadyExistsException(e: UserAlreadyExistsException): ResponseEntity<ResponseDto<Nothing>> {
         logger.error("Error: ${e.message}")
+        return ResponseEntity(ResponseDto(null, e.message!!, false), HttpStatus.BAD_REQUEST)
+    }
+    @ExceptionHandler
+    fun handleTutorReachedLimitException(e: CommitteeMemberReachedLimitException): ResponseEntity<ResponseDto<Nothing>> {
         return ResponseEntity(ResponseDto(null, e.message!!, false), HttpStatus.BAD_REQUEST)
     }
 }

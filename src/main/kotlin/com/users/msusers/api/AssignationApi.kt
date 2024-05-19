@@ -5,6 +5,7 @@ import com.users.msusers.bl.TutorBl
 import com.users.msusers.dto.RelatorAssignationDto
 import com.users.msusers.dto.ResponseDto
 import com.users.msusers.dto.TutorAssignationDto
+import com.users.msusers.entity.CommitteeMemberReachedLimitException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
@@ -22,11 +23,15 @@ class AssignationApi (
     @PostMapping("/tutor")
     fun assignTutor(@RequestBody tutorAssignationDto: TutorAssignationDto):
             ResponseEntity<ResponseDto<String>> {
-
-        tutorBl.assignTutor(tutorAssignationDto.userId, tutorAssignationDto.tutorId)
-        return ResponseEntity.ok(
-            ResponseDto(null,"Tutor assigned successfully", true))
-
+        try {
+            tutorBl.assignTutor(tutorAssignationDto.userId, tutorAssignationDto.tutorId)
+            return ResponseEntity.ok(
+                ResponseDto(null, "Tutor assigned successfully", true)
+            )
+        }
+        catch (e: CommitteeMemberReachedLimitException) {
+            return ResponseEntity.badRequest().body(ResponseDto(null, e.message!!, false))
+        }
     }
 
     @PostMapping("/relator")
