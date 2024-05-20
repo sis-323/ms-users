@@ -39,11 +39,15 @@ class AssignationApi (
     @PostMapping("/relator")
     fun assignRelator(@RequestBody relatorAssignationDto: CommitteeAssignationDto):
             ResponseEntity<ResponseDto<String>> {
+        try{
+            relatorBl.assignRelator(relatorAssignationDto.userKcId, relatorAssignationDto.committeeMemberKcId)
+            return ResponseEntity.ok(
+                ResponseDto(null,"Relator assigned successfully", true))
+        }
+        catch (e: CommitteeMemberReachedLimitException){
+            return ResponseEntity.badRequest().body(ResponseDto(null, e.message!!, false))
 
-        relatorBl.assignRelator(relatorAssignationDto.userKcId, relatorAssignationDto.committeeMemberKcId)
-        return ResponseEntity.ok(
-            ResponseDto(null,"Relator assigned successfully", true))
-
+        }
     }
 
 }
