@@ -70,6 +70,13 @@ class UserApi @Autowired constructor(
         val students = userBl.findStudents()
         return ResponseEntity.ok(ResponseDto(students, "Students found", true))
     }
+
+    @GetMapping("/students/")
+    fun getStudentDetails(@RequestParam("kcId") kcId: String): ResponseEntity<ResponseDto<StudentDto>?> {
+        val student = userBl.findStudentDetailsByKcId(kcId)
+        return ResponseEntity.ok(ResponseDto(student, "Student found", true))
+    }
+
     @GetMapping("/committee")
     fun getRelators(): ResponseEntity<ResponseDto<List<RelatorDto>>> {
         val committee = userBl.findCommittee()

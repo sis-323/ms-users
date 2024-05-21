@@ -97,6 +97,26 @@ class UserBl @Autowired constructor(
         return result
     }
 
+    fun findStudentDetailsByKcId(kcId: String): StudentDto {
+        val student = userRepository.findByIdKc(kcId)
+        val modality = modalityRepository.findByIdModality(student.modality!!.idModality)
+        val tutorExists = assignationRepository.tutorExistsByStudentIdIdKc(student.idKc)
+        val relatorExists = assignationRepository.relatorExistsByStudentIdIdKc(student.idKc)
+        val tutor = if (tutorExists) assignationRepository.findByStudentIdIdKc(student.idKc).tutorId?.name else "Sin asignar"
+        val relator = if (relatorExists) assignationRepository.findByStudentIdIdKc(student.idKc).relatorId?.name else "Sin asignar"
+        return StudentDto(
+                modality.modality,
+                student.name,
+                student.lastName,
+                student.motherLastName,
+                student.email,
+                student.phoneNumber,
+                tutor,
+                relator,
+                student.idKc
+        )
+    }
+
     fun findUserDetailsByKcId(kcId: String): PersonDto {
         val user = userRepository.findByIdKc(kcId)
         return PersonDto(

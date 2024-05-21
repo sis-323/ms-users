@@ -20,13 +20,11 @@ class ExceptionHandlerController {
 
     @ExceptionHandler(CustomNotFoundException::class)
     fun handleNotFoundException(e: CustomNotFoundException): ResponseEntity<ResponseDto<Nothing>> {
-        logger.error("Error: ${e.message}")
         return ResponseEntity(ResponseDto(null, e.message!!, false), HttpStatus.NOT_FOUND)
     }
 
     @ExceptionHandler
     fun handleUserAlreadyExistsException(e: UserAlreadyExistsException): ResponseEntity<ResponseDto<Nothing>> {
-        logger.error("Error: ${e.message}")
         return ResponseEntity(ResponseDto(null, e.message!!, false), HttpStatus.BAD_REQUEST)
     }
     @ExceptionHandler

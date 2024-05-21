@@ -35,6 +35,7 @@ class GlobalSecurityConfiguration(private val properties: TokenConverterProperti
                     .requestMatchers(HttpMethod.POST, "api/v1/users/student").permitAll()
                     .requestMatchers(HttpMethod.POST, "api/v1/assignation/tutor").hasRole("create-committee")
                     .requestMatchers(HttpMethod.POST, "api/v1/assignation/relator").hasRole("create-committee")
+                    .requestMatchers(HttpMethod.GET, "api/v1/users/students/").hasRole("create-committee")
                     .requestMatchers("/greetings/**").hasRole("ADMIN")
                     .anyRequest().permitAll()
             }

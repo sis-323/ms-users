@@ -15,7 +15,7 @@ spring:
           issuer-uri: ${ISSUER_URI:http://localhost:8080/realms/sis-323}
           jwk-set-uri: ${spring.security.oauth2.resource-server.jwt.issuer-uri}/protocol/openid-connect/certs
   datasource:
-    url: ${POSTGRES_URL:jdbc:postgresql://localhost:5432/sis-323}
+    url: ${POSTGRES_URL:jdbc:postgresql://localhost:5432/sis-323-test}
     username: ${POSTGRES_USERNAME:postgres}
     password: ${POSTGRES_PASSWORD:admin}
     jpa:
