@@ -20,6 +20,7 @@ interface AssignationRepository : JpaRepository<Assignation, Long> {
 
     fun findAllByRelatorId(relatorId: Person): List<Assignation>
 
+
     fun findByStudentIdIdKc(studentId: String): Assignation
 
     @Query("SELECT CASE WHEN COUNT(a) > 0 THEN true ELSE false END FROM Assignation a " +
