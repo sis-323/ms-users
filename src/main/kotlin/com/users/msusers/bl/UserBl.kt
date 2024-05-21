@@ -97,6 +97,21 @@ class UserBl @Autowired constructor(
         return result
     }
 
+    fun findUserDetailsByKcId(kcId: String): PersonDto {
+        val user = userRepository.findByIdKc(kcId)
+        return PersonDto(
+                user.idPerson,
+                user.name,
+                user.lastName,
+                user.motherLastName,
+                user.email,
+                user.phoneNumber,
+                user.modality?.modality,
+                user.group
+
+        )
+    }
+
     // TODO: Refactor relator dto
     fun findCommittee(): List<RelatorDto>{
         val committee = userRepository.findCommitteeMembers()

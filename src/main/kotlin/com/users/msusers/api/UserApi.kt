@@ -1,6 +1,7 @@
 package com.users.msusers.api
 
 import com.users.msusers.bl.RelatorBl
+import com.users.msusers.bl.TutorBl
 import com.users.msusers.bl.UserBl
 import com.users.msusers.dto.*
 import org.springframework.beans.factory.annotation.Autowired
@@ -17,8 +18,11 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/api/v1/users")
 @CrossOrigin(origins = ["*"])
-class UserApi @Autowired constructor(private val userBl: UserBl,
-    @Autowired private val relatorBl: RelatorBl) {
+class UserApi @Autowired constructor(
+    private val userBl: UserBl,
+    @Autowired private val relatorBl: RelatorBl,
+    private val tutorBl: TutorBl
+) {
 
     @PostMapping("/student")
     fun createUser(@RequestBody userDto: PersonDto): ResponseEntity<String>{
@@ -80,7 +84,7 @@ class UserApi @Autowired constructor(private val userBl: UserBl,
     }
 
     @PutMapping("/relator")
-    fun deleteRelator(@RequestParam kcUUID: String): ResponseEntity<ResponseDto<String>> {
+    fun deleteRelator(@RequestParam("kcId") kcUUID: String): ResponseEntity<ResponseDto<String>> {
         try {
             relatorBl.deleteRelator(kcUUID)
         }
@@ -88,6 +92,23 @@ class UserApi @Autowired constructor(private val userBl: UserBl,
             return ResponseEntity.badRequest().body(ResponseDto(null, e.message!!, false))
         }
         return ResponseEntity.ok(ResponseDto(null, "Relator deleted", true))
+    }
+
+    @PutMapping("/tutor")
+    fun deleteTutor(@RequestParam("kcId") kcUUID: String): ResponseEntity<ResponseDto<String>> {
+        try {
+            tutorBl.deleteTutor(kcUUID)
+        }
+        catch (e: Exception) {
+            return ResponseEntity.badRequest().body(ResponseDto(null, e.message!!, false))
+        }
+        return ResponseEntity.ok(ResponseDto(null, "Tutor deleted", true))
+    }
+
+    @GetMapping("/")
+    fun getUserDetails(@RequestParam("kcId") kcId: String): ResponseEntity<ResponseDto<PersonDto>> {
+        val user = userBl.findUserDetailsByKcId(kcId)
+        return ResponseEntity.ok(ResponseDto(user, "User found", true))
     }
 
 

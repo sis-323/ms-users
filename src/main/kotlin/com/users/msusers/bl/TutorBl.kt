@@ -41,15 +41,23 @@ class TutorBl constructor(
                 val assignation = getAssignation(user.idPerson) as Assignation
                 assignation.tutorId = tutor
                 assignationRepository.save(assignation)
-
             }
-
             logger.info("Tutor assigned to user: $userId")
         } else {
             logger.warn("Tutor with ID: $tutorId has reached the limit of students")
             throw CommitteeMemberReachedLimitException("Tutor has reached the limit of students")
         }
 
+
+    }
+
+    fun deleteTutor(userId: String) {
+        logger.debug("Start deleting tutor to user: $userId")
+
+        val user = userRepository.findByIdKc(userId)
+
+        user.status = false
+        userRepository.save(user);
 
     }
 
