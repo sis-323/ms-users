@@ -20,4 +20,5 @@ class RelatorApi (
         val students = relatorBl.findStudentsByRelator(kcId)
         return ResponseEntity.ok(ResponseDto(students, "Students found", true))
     }
+
 }

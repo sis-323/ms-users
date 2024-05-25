@@ -20,10 +20,21 @@ class CommitteeBl constructor(
     }
 
     //TODO: add tutor and relator to the studentDto
-    fun findStudentsByTutorKcId(kcId: String): List<StudentDto>{
+    fun findStudentsByCommitteeMemberKcId(kcId: String, type: String): List<StudentDto>{
         logger.info("Finding students by tutor kc id $kcId")
         val tutor = userRepository.findByIdKc(kcId)
-        val students = assignationRepository.findAllByTutorId(tutor)
+        val students = when(type){
+            "tutors" ->{
+                assignationRepository.findAllByTutorId(tutor)
+            }
+            "relators" ->{
+                assignationRepository.findAllByRelatorId(tutor)
+            }
+            else ->{
+                assignationRepository.findAllByTutorId(tutor)
+            }
+        }
+
         val studentsDto = mutableListOf<StudentDto>()
         students.forEach {
             studentsDto.add(StudentDto(it.studentId?.idKc,
@@ -34,6 +45,7 @@ class CommitteeBl constructor(
         }
         return studentsDto
     }
+
 
 
     /**

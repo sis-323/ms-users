@@ -21,11 +21,14 @@ class CommitteeApi @Autowired constructor(
         return ResponseEntity.ok(ResponseDto(committeeMember, "Committee member found", true))
     }
 
-    @GetMapping("/tutor/students/{kcId}")
-    fun getTutorStudents( @PathVariable("kcId") kcId: String): ResponseEntity<ResponseDto<List<StudentDto>>> {
-        val tutorStudents = committeeBl.findStudentsByTutorKcId(kcId)
+    @GetMapping("/members/students/{kcId}")
+    fun getTutorStudents( @PathVariable("kcId") kcId: String,
+                          @RequestParam("type") type: String): ResponseEntity<ResponseDto<List<StudentDto>>> {
+        val tutorStudents = committeeBl.findStudentsByCommitteeMemberKcId(kcId,type)
         return ResponseEntity.ok(ResponseDto(tutorStudents, "Tutor students found", true))
     }
+
+
 
 
 }
