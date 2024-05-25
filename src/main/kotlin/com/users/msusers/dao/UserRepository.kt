@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query
 @Repository
 interface UserRepository: JpaRepository<Person, Long>{
 
+    fun existsByEmail(email: String): Boolean
     fun findByEmail(email: String): Person
     fun findByIdKc(idKc: String): Person
 

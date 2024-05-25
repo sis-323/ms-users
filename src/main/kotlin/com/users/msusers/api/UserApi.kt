@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import javax.ws.rs.ClientErrorException
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -26,8 +27,12 @@ class UserApi @Autowired constructor(
 
     @PostMapping("/student")
     fun createUser(@RequestBody userDto: PersonDto): ResponseEntity<String>{
-        userBl.createUser(userDto, "students")
-        return ResponseEntity.ok("User created")
+        try {
+            userBl.createUser(userDto, "students")
+            return ResponseEntity.ok("User created")
+        } catch (e: ClientErrorException) {
+            return ResponseEntity.badRequest().body(e.message)
+        }
     }
 
     @PostMapping("/professor")

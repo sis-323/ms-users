@@ -11,6 +11,7 @@ import com.users.msusers.entity.Modality
 import com.users.msusers.entity.Person
 import com.users.msusers.exception.CustomNotFoundException
 import com.users.msusers.exception.UserAlreadyExistsException
+import jakarta.transaction.Transactional
 import org.keycloak.admin.client.Keycloak
 import org.keycloak.representations.idm.CredentialRepresentation
 import org.keycloak.representations.idm.UserRepresentation
@@ -36,20 +37,28 @@ class UserBl @Autowired constructor(
     @Value("\${keycloak.credentials.realm}")
     private val realm: String? = null
 
+    @Transactional
     fun createUser(personDto: PersonDto, groupName: String){
 
-        logger.info("Creating user: ${personDto.email} in group: $groupName")
 
         val passwordRepresentation = preparePasswordRepresentation(personDto.password!!)
         val userRepresentation = prepareUserRepresentation(personDto, passwordRepresentation, groupName)
 
         //val person = userRepository.findByEmail(personDto.email!!)
+        if (userRepository.existsByEmail(personDto.email!!)) {
+            logger.error("User already exists")
+            throw UserAlreadyExistsException("El correo ya se encuentra registrado")
+        }
+
         val response = keycloak.realm(realm).users().create(userRepresentation)
 
         if (response.status != 201) {
             logger.error("Error creating user: ${response.statusInfo}")
             throw ClientErrorException(response)
         }
+        logger.info("Creating user: ${personDto.email} in group: $groupName")
+
+
 
         val userUuid = response.location.path.split("/").last()
         logger.info("User created successfully. UUID: $userUuid")
