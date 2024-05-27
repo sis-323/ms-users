@@ -117,6 +117,20 @@ class UserApi @Autowired constructor(
         return ResponseEntity.ok(ResponseDto(user, "User found", true))
     }
 
+    @PutMapping("/")
+    fun updateUser(
+        @RequestParam("kcId") kcId: String,
+        @RequestBody userDto: PersonDto
+    ): ResponseEntity<ResponseDto<String>> {
+        try {
+            userBl.updateUser(kcId, userDto)
+        }
+        catch (e: Exception) {
+            return ResponseEntity.badRequest().body(ResponseDto(null, e.message!!, false))
+        }
+        return ResponseEntity.ok(ResponseDto(null, "User updated", true))
+    }
+
 
 
 

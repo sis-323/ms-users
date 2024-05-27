@@ -163,6 +163,35 @@ class UserBl @Autowired constructor(
         }
     }
 
+    fun updateUser(kcId: String, userDto: PersonDto): PersonDto {
+        logger.info("Updating user: $kcId")
+        try{
+            val user = userRepository.findByIdKc(kcId)
+
+            user.name = userDto.name!!
+            user.lastName = userDto.lastName!!
+            user.motherLastName = userDto.motherLastName!!
+            user.phoneNumber = userDto.phoneNumber!!
+
+            userRepository.save(user)
+
+            logger.info("User updated successfully")
+            return PersonDto(
+                user.idPerson,
+                user.name,
+                user.lastName,
+                user.motherLastName,
+                user.email,
+                user.phoneNumber,
+                user.modality?.modality,
+                user.group
+            )
+        } catch (e: Exception) {
+            logger.error("Error updating user: ${e.message}")
+            throw CustomNotFoundException("User not found")
+        }
+    }
+
 
 
 
