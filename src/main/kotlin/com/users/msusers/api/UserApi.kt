@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/api/v1/users")
-@CrossOrigin(origins = ["*"])
 class UserApi @Autowired constructor(
     private val userBl: UserBl,
     @Autowired private val relatorBl: RelatorBl,

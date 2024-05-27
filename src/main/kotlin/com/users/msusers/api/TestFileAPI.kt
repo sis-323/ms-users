@@ -11,7 +11,6 @@ import org.springframework.web.multipart.MultipartFile
 
 @RestController
 @RequestMapping("api/test-file")
-@CrossOrigin(origins = ["*"])
 class TestFileAPI {
 
     companion object {

@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("api/v1/assignation")
-@CrossOrigin(origins = ["*"])
 class AssignationApi (
         @Autowired private val tutorBl: TutorBl,
     @Autowired private val relatorBl: RelatorBl
