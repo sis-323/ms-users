@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/v1/users/relators")
-@CrossOrigin(origins = ["*"])
 
 class RelatorApi (
     @Autowired private val relatorBl: RelatorBl

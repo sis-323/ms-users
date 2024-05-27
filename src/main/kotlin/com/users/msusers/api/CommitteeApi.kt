@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/v1/users/committee")
-@CrossOrigin(origins = ["*"])
 class CommitteeApi @Autowired constructor(
     private val committeeBl: CommitteeBl
 ) {

@@ -19,7 +19,6 @@ import javax.ws.rs.ClientErrorException
 
 @RestController
 @RequestMapping("/api/v1/users")
-@CrossOrigin(origins = ["*"])
 class UserApi @Autowired constructor(
     private val userBl: UserBl,
     @Autowired private val relatorBl: RelatorBl,
