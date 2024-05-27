@@ -4,6 +4,7 @@ import com.users.msusers.bl.RelatorBl
 import com.users.msusers.bl.TutorBl
 import com.users.msusers.bl.UserBl
 import com.users.msusers.dto.*
+import com.users.msusers.exception.UserAlreadyExistsException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.CrossOrigin
@@ -24,14 +25,18 @@ class UserApi @Autowired constructor(
     @Autowired private val relatorBl: RelatorBl,
     private val tutorBl: TutorBl
 ) {
+    companion object{
+        private val logger = org.slf4j.LoggerFactory.getLogger(UserApi::class.java.name)
+    }
 
     @PostMapping("/student")
-    fun createUser(@RequestBody userDto: PersonDto): ResponseEntity<String>{
+    fun createUser(@RequestBody userDto: PersonDto): ResponseEntity<ResponseDto<String>>{
         try {
             userBl.createUser(userDto, "students")
-            return ResponseEntity.ok("User created")
-        } catch (e: ClientErrorException) {
-            return ResponseEntity.badRequest().body(e.message)
+            return ResponseEntity.ok(ResponseDto<String> (null, "Usuario registrado con éxito", true))
+        } catch (e: UserAlreadyExistsException) {
+            logger.error("Error creating user: ${e.message}")
+            return ResponseEntity.badRequest().body(ResponseDto<String>(null, e.message!!, false))
         }
     }
 
@@ -39,11 +44,12 @@ class UserApi @Autowired constructor(
     fun createProfessor(@RequestBody userDto: PersonDto) : ResponseEntity<ResponseDto<String>> {
         try {
             userBl.createUser(userDto, "professors")
+            return ResponseEntity.ok(ResponseDto(null, "User created", true))
         }
         catch (e: Exception) {
             return ResponseEntity.badRequest().body(ResponseDto(null, e.message!!, false))
         }
-        return ResponseEntity.ok(ResponseDto(null, "User created", true))
+
     }
 
 

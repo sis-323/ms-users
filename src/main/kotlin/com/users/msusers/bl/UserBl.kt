@@ -40,7 +40,6 @@ class UserBl @Autowired constructor(
     @Transactional
     fun createUser(personDto: PersonDto, groupName: String){
 
-
         val passwordRepresentation = preparePasswordRepresentation(personDto.password!!)
         val userRepresentation = prepareUserRepresentation(personDto, passwordRepresentation, groupName)
 
