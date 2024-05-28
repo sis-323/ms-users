@@ -16,7 +16,7 @@ import org.springframework.security.config.annotation.web.invoke
 @EnableWebSecurity
 class GlobalSecurityConfiguration(private val properties: TokenConverterProperties) {
 
-    private val keycloakJwtTokenConverter: KeycloakJwtTokenConverter
+    private var keycloakJwtTokenConverter: KeycloakJwtTokenConverter
 
     init {
         val jwtGrantedAuthoritiesConverter = JwtGrantedAuthoritiesConverter()
@@ -32,11 +32,12 @@ class GlobalSecurityConfiguration(private val properties: TokenConverterProperti
         return http
             .authorizeHttpRequests { authorize ->
                 authorize
-                    .requestMatchers(HttpMethod.POST, "api/v1/users/student").permitAll()
-                    .requestMatchers(HttpMethod.POST, "api/v1/assignation/tutor").hasRole("create-committee")
-                    .requestMatchers(HttpMethod.POST, "api/v1/assignation/relator").hasRole("create-committee")
-                    .requestMatchers(HttpMethod.GET, "api/v1/users/students/").hasRole("create-committee")
-                    .requestMatchers("/greetings/**").hasRole("ADMIN")
+//                    .requestMatchers(HttpMethod.POST, "api/v1/users/student").permitAll()
+//                    .requestMatchers(HttpMethod.POST, "api/v1/assignation/tutor").hasRole("create-committee")
+//                    .requestMatchers(HttpMethod.POST, "api/v1/assignation/relator").hasRole("create-committee")
+//                    .requestMatchers(HttpMethod.GET, "api/v1/users/students/").hasRole("create-committee")
+//                    .requestMatchers(HttpMethod.GET, "api/v1/users/students/").hasRole("view-students-list")
+//                    .requestMatchers("/greetings/**").hasRole("ADMIN")
                     .anyRequest().permitAll()
             }
 

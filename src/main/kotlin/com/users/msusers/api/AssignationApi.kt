@@ -4,7 +4,6 @@ import com.users.msusers.bl.RelatorBl
 import com.users.msusers.bl.TutorBl
 import com.users.msusers.dto.CommitteeAssignationDto
 import com.users.msusers.dto.ResponseDto
-import com.users.msusers.dto.TutorAssignationDto
 import com.users.msusers.entity.CommitteeMemberReachedLimitException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
