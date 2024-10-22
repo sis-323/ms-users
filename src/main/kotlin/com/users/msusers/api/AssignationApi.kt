@@ -4,10 +4,9 @@ import com.users.msusers.bl.RelatorBl
 import com.users.msusers.bl.TutorBl
 import com.users.msusers.dto.CommitteeAssignationDto
 import com.users.msusers.dto.ResponseDto
-import com.users.msusers.entity.CommitteeMemberReachedLimitException
+import com.users.msusers.exception.CommitteeMemberReachedLimitException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
