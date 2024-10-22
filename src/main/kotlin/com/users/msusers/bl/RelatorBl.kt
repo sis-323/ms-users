@@ -3,15 +3,11 @@ package com.users.msusers.bl
 import com.users.msusers.dao.AssignationRepository
 import com.users.msusers.dao.UserRepository
 import com.users.msusers.dto.PersonDto
-import com.users.msusers.dto.RelatorDto
 import com.users.msusers.entity.Assignation
-import com.users.msusers.entity.CommitteeMemberReachedLimitException
-import com.users.msusers.entity.Person
+import com.users.msusers.exception.CommitteeMemberReachedLimitException
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import java.util.UUID
-import kotlin.math.log
 
 @Service
 class RelatorBl (

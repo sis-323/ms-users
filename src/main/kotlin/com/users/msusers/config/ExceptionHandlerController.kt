@@ -1,8 +1,7 @@
 package com.users.msusers.config
 
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.users.msusers.dto.ResponseDto
-import com.users.msusers.entity.CommitteeMemberReachedLimitException
+import com.users.msusers.exception.CommitteeMemberReachedLimitException
 import com.users.msusers.exception.CustomNotFoundException
 import com.users.msusers.exception.UserAlreadyExistsException
 import org.slf4j.LoggerFactory
@@ -10,7 +9,6 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
-import javax.ws.rs.NotFoundException
 
 @ControllerAdvice
 class ExceptionHandlerController {
