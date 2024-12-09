@@ -23,8 +23,9 @@ class CommitteeBl constructor(
     fun findStudentsByCommitteeMemberKcId(kcId: String, type: String): List<StudentDto>{
         logger.info("Finding students by tutor kc id $kcId")
         val tutor = userRepository.findByIdKc(kcId)
+        logger.info("Tutor found: $type")
         val students = when(type){
-            "tutors" ->{
+            "tutor" ->{
                 assignationRepository.findAllByTutorId(tutor)
             }
             "relators" ->{

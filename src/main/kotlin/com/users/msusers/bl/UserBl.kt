@@ -86,8 +86,19 @@ class UserBl @Autowired constructor(
             val modality = modalityRepository.findByIdModality(it.modality!!.idModality)
             val tutorExists = assignationRepository.tutorExistsByStudentIdIdKc(it.idKc)
             val relatorExists = assignationRepository.relatorExistsByStudentIdIdKc(it.idKc)
-            val tutor = if (tutorExists) assignationRepository.findByStudentIdIdKc(it.idKc).tutorId?.name else "Sin asignar"
-            val relator = if (relatorExists) assignationRepository.findByStudentIdIdKc(it.idKc).relatorId?.name else "Sin asignar"
+            var tutor = if (tutorExists) assignationRepository.findByStudentIdIdKc(it.idKc).tutorId?.name  else "Sin asignar"
+            var relator = if (relatorExists) assignationRepository.findByStudentIdIdKc(it.idKc).relatorId?.name else "Sin asignar"
+
+            if(tutor != "Sin asignar" || relator != "Sin asignar"){
+                val foundTutor = assignationRepository.findByStudentIdIdKc(it.idKc);
+                val foundRelator = assignationRepository.findByStudentIdIdKc(it.idKc);
+
+                if(tutorExists)
+                    tutor = foundTutor.tutorId?.name + " " + foundTutor.tutorId?.lastName + " " + foundTutor.tutorId?.motherLastName;
+                if(relatorExists)
+                    relator = foundRelator.relatorId?.name + " " + foundRelator.relatorId?.lastName + " " + foundRelator.relatorId?.motherLastName;
+            }
+
             result.add(
                     StudentDto(
                             modality.modality,
@@ -110,8 +121,19 @@ class UserBl @Autowired constructor(
         val modality = modalityRepository.findByIdModality(student.modality!!.idModality)
         val tutorExists = assignationRepository.tutorExistsByStudentIdIdKc(student.idKc)
         val relatorExists = assignationRepository.relatorExistsByStudentIdIdKc(student.idKc)
-        val tutor = if (tutorExists) assignationRepository.findByStudentIdIdKc(student.idKc).tutorId?.name else "Sin asignar"
-        val relator = if (relatorExists) assignationRepository.findByStudentIdIdKc(student.idKc).relatorId?.name else "Sin asignar"
+        var tutor = if (tutorExists) assignationRepository.findByStudentIdIdKc(student.idKc).tutorId?.name else "Sin asignar"
+        var relator = if (relatorExists) assignationRepository.findByStudentIdIdKc(student.idKc).relatorId?.name else "Sin asignar"
+
+        if(tutor != "Sin asignar" || relator != "Sin asignar"){
+            val foundTutor = assignationRepository.findByStudentIdIdKc(student.idKc);
+            val foundRelator = assignationRepository.findByStudentIdIdKc(student.idKc);
+
+            if(tutorExists)
+                tutor = foundTutor.tutorId?.name + " " + foundTutor.tutorId?.lastName + " " + foundTutor.tutorId?.motherLastName;
+            if(relatorExists)
+                relator = foundRelator.relatorId?.name + " " + foundRelator.relatorId?.lastName + " " + foundRelator.relatorId?.motherLastName;
+        }
+
         return StudentDto(
                 modality.modality,
                 student.name,
